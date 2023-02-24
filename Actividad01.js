@@ -4,7 +4,7 @@
 
 class Product {
     
-    constructor (title, description, price, thumbnail, id, stock) {
+    constructor (title, description, price, thumbnail, code, stock, id) {
         
         this.title = title;
         
@@ -13,6 +13,8 @@ class Product {
         this.price = price;
         
         this.thumbnail = thumbnail;
+        
+        this.code = code;
         
         this.id = id;
         
