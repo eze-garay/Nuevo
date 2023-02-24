@@ -3,6 +3,7 @@
 
 
 class Product {
+
     
     constructor (title, description, price, thumbnail, code, stock, id) {
         
@@ -49,8 +50,14 @@ class ProductManager {
         }
     
     }
+    let id;
+    if (this.products.length === 0) {
+        id =1;
+    } else {
+        id = this.products[this.products.length -1].id +1
+    }
     
-    Product.id = Math.random();
+    Product.id = id;
     
     this.products.push(Product);
     
