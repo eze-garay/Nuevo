@@ -1,29 +1,5 @@
 
 
-
-
-class Product {
-
-    
-    constructor (title, description, price, thumbnail, code, stock, id) {
-        
-        this.title = title;
-        
-        this.description = description;
-        
-        this.price = price;
-        
-        this.thumbnail = thumbnail;
-        
-        this.code = code;
-        
-        this.id = id;
-        
-        this.stock = stock;
-        
-        }
-}
-
 class ProductManager {
 
 
@@ -33,24 +9,36 @@ class ProductManager {
     
     }
     
-    addProduct (Product) {
-    
-        for(const element of this.products) {
+    addProduct (title, description, price, thumbnail, code, stock, id) {
         
-        if (element.id === Product.id) {
+
+        let Product = {
+
+            title : title,
         
-        return 'El producto ya existe en la lista'
+            description : description,
         
-        } else
+            price : price,
         
-        if (Product.title === '' || Product.description === '' || Product.price === '' || Product.thumbnail === ''|| Product.id === 0 || Product.stock < 0 ) {
+            thumbnail : thumbnail,
         
-        return 'Todos los campos son necesarios'
+            code : code,
         
+            id : id,
+        
+            stock : stock,
         }
+        
+        for (const element of this.products) {
+        if (element.code === Product.code){
+            return 'El elemento ya esta cargado' 
+        } else if (Product.title === '' || Product.description === '' || Product.price === '' || Product.thumbnail === ''|| Product.id === 0 || Product.stock < 0) {
+            return 'Todos los campos son necesarios'
+        }}
+                    
+        
+
     
-    }
-    let id;
     if (this.products.length === 0) {
         id =1;
     } else {
@@ -89,24 +77,14 @@ class ProductManager {
 
 
     
-    const product1 = new Product ('producto prueba','Este es un producto prueba','200','Sin imagen',"abc123",25);
-    
-    
-    
-    
-    const manager = new ProductManager ();
+ const manager = new ProductManager ();
     
    console.log(manager);
-   console.log(manager.addProduct(Product));
-   manager.addProduct(product1);
+   console.log(manager.addProduct());
+   console.log(manager.addProduct('producto prueba','Este es un producto prueba','200','Sin imagen',"abc123",25));
    console.log(manager.getProducts());
-   console.log(manager.addProduct(product1));
+   console.log(manager.addProduct('producto prueba','Este es un producto prueba','200','Sin imagen',"abc123",25));
 
    console.log(manager.getProductsbyId());
 
-   console.log(manager.getProductsbyId(product1.id));
-
-
-   
-    
-  
+   console.log(manager.getProductsbyId(2));
