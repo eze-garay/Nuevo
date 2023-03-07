@@ -20,19 +20,19 @@ class ProductManager {
 
         let Product = {
 
-            title : title,
+            title,
         
-            description : description,
+            description,
         
-            price : price,
+            price,
         
-            thumbnail : thumbnail,
+            thumbnail,
         
-            code : code,
+            code,
         
-            id : id,
+            id,
         
-            stock : stock,
+            stock,
         }
         
       try {
@@ -44,20 +44,20 @@ class ProductManager {
         let ProductFile = await fs.promises.readFile(this.path, "utf-8");
         console.info("Archivo JSON obtenido");
         console.log(ProductFile);
-        this.product =JSON.parse(ProductFile);
-
-        for (const element of this.product) {
-          if (element.code === Product.code) {
-              return 'El elemento ya esta cargado' 
-        } else if (Product.title === '' || Product.description === '' || Product.price === '' || Product.thumbnail === ''|| Product.id === 0 || Product.stock < 0) {
-              return 'Todos los campos son necesarios'
-        }}
+        const productsParsed=JSON.parse(ProductFile);
         Product.id = this.product.length + 1
+
+        if (this.product.find((prod) => prod.code == code)) {
+              console.log('El elemento ya esta cargado')
+        } else if (Product.title === '' || Product.description === '' || Product.price === '' || Product.thumbnail === ''|| Product.id === 0 || Product.stock < 0) {
+              console.log('Todos los campos son necesarios')
+        }
+      
         console.log("Porductos cargados");
-        console.log(this.product);
+        console.log(productsParsed);
         this.product.push(Product);
         console.log("Nueva lista de productos cargados");
-        console.log(this.product);
+        console.log(productsParsed);
         await fs.promises.writeFile(this.path, JSON.stringify(this.product));
       } catch (error) {
         console.error(`Error cargando producto nuevo: ${JSON.stringify(Product)}, detalle del error :${error}`);
@@ -76,9 +76,9 @@ class ProductManager {
       let ProductFile = await fs.promises.readFile(this.path, "utf-8");
       console.info("Archivo JSON obtenido desde archivo: ");
       console.log(ProductFile);
-      this.product = JSON.parse(ProductFile);
+      const productsParsed=JSON.parse(ProductFile);
       console.log("Productos encontrados: ");
-      console.log(this.product);
+      console.log(productsParsed);
       return this.product;
       } catch (error) {
         console.error(`Error al consultar la lista de productos, verifique el archivo ${this.productDir}, detalle del error ${error}`);
@@ -108,55 +108,25 @@ class ProductManager {
     }
     }
 
-    updateProduc = async (id,title, description, price, thumbnail, code, stock,) =>{
-      let Product = {
 
-        title : title,
-    
-        description : description,
-    
-        price : price,
-    
-        thumbnail : thumbnail,
-    
-        code : code,
-    
-        id : id,
-    
-        stock : stock,
-    }
-
-    try {
-          await fs.promises.mkdir(this.productDir,{recursive: true})
-          if (!fs.existsSync(this.path)) {
-            await fs.promises.writeFile(this.path, "[]");
-          }
-          let ProductFile = await fs.promises.readFile(this.path, "utf-8");
-          console.info("Archivo JSON obtenido");
-          console.log(ProductFile);
-          this.product =JSON.parse(ProductFile);
-          for (const element of this.product) {
-            if (element.id === Product.id) {
-                Product.title = title
-                Product.description = description
-                Product.price = price
-                Product.thumbnail = thumbnail
-                Product.code = code
-                Product.stock = stock
-          } else {
-            return console.log('No existe el producto para modificar');
-          }
-         }
+    updateProductById = async (id, updatedData) => {
+      let result = await fs.promises.readFile(this.path)
+      let parsedRes = await JSON.parse(result)
       
-        console.log("Producto modificado");
-        await fs.promises.writeFile(this.path, JSON.stringify(Product));      
-    } catch (error) {
-          console.error(`No se puede modificar el producto, verifique ${this.productDir}, detalle del error ${error}`);
-          throw Error (`No se puede modificar el producto, verifique  ${this.productDir}, detalle del error ${error}`);
-          
-        }
-    }
-
+      let productToUpdate = parsedRes.find(product => product.id == id)
+      
+      if (productToUpdate) {
+      // actualizar el objeto
+      Object.assign(productToUpdate, updatedData)
+      
+      await fs.promises.writeFile(this.path, JSON.stringify(parsedRes))
+      
+      console.log('producto correctamente modificado')
+      } else {
+      console.log(`El producto de ID ${id} no existe`)
+      }
+      }
+ 
     deleteProduct = async (id) => {
   
       const ProductFile = await fs.promises.readFile(this.path, "utf-8")
@@ -173,7 +143,7 @@ class ProductManager {
         console.log(`El producto con el id: ${id}, no esta en la lista de productos`)
       }
     
-      
+      console.log(`El producto con el id: ${id},se ha eliminado de la lista de productos`)
       }
     
     

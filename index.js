@@ -1,4 +1,5 @@
 
+const { title } = require("process");
 const ProductManager = require ("./ProductManager");
 
 let manager = new ProductManager ();
@@ -8,12 +9,20 @@ let manager = new ProductManager ();
 const EjecutApp = async () =>{
     await manager.getProduct();
     await manager.addProduct('producto prueba','Este es un producto prueba','200', 'Sin imagen', "abc123",'25',);
-//     await manager.getProduct();
-//     await manager.getProductById(3);
-//     await manager.getProductById(1);
-    //await manager.updateProduc(1,'producto prueba2','Este es un producto prueba2','2002', 'Sin imagen2', "abc1232",'252',);
-    //await manager.deleteProduct(3);
-    //await manager.deleteProduct();
+    await manager.getProduct();
+    await manager.getProductById(3);
+    await manager.getProductById(1);
+    await manager.updateProductById(1 , {
+            title: "2",
+        	description: 'este es el cambio de prueba 2',
+        	price: '330',
+        	code: 'abc387',
+        	stock: 44
+    });
+    await manager.getProductById(1);
+    // await manager.deleteProduct(3);
+    // await manager.deleteProduct(1);
+    // await manager.getProduct(1);
    
 }
 
