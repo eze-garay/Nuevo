@@ -4,7 +4,7 @@ const fs = require ("fs");
 
 class ProductManager {
     
-
+  
    
     constructor() {
         this.product = [];
@@ -148,5 +148,5 @@ class ProductManager {
     
     
 };
-module.exports = ProductManager;
+exports.ProductManager ();
     

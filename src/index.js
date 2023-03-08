@@ -1,6 +1,5 @@
 
-const { title } = require("process");
-const ProductManager = require ("./ProductManager");
+import ProductManager from "./ProductManager.js";
 
 let manager = new ProductManager ();
 
