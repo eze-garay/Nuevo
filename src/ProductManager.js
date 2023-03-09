@@ -151,24 +151,33 @@ class ProductManager {
 
 
 
-let manager = new ProductManager ("./src/files/Products.json");
+let manager = new ProductManager ();
 
 //Segundo Test:
 
 const EjecutApp = async () =>{
     await manager.getProduct();
-    await manager.addProduct('producto prueba','Este es un producto prueba','200', 'Sin imagen', "abc123",'25',);
-    await manager.getProduct();
-    await manager.getProductById(3);
-    await manager.getProductById(1);
-    await manager.updateProductById(1 , {
-            title: "2",
-        	description: 'este es el cambio de prueba 2',
-        	price: '330',
-        	code: 'abc387',
-        	stock: 44
-    });
-    await manager.getProductById(1);
+    // await manager.addProduct('1','Este es un producto prueba','200', 'Sin imagen', "abc1",'25',);
+    // await manager.addProduct('2','Este es un producto prueba','200', 'Sin imagen', "abc2",'25',);
+    // await manager.addProduct('3','Este es un producto prueba','200', 'Sin imagen', "abc3",'25',);
+    // await manager.addProduct('4','Este es un producto prueba','200', 'Sin imagen', "abc4",'25',);
+    // await manager.addProduct('5','Este es un producto prueba','200', 'Sin imagen', "abc5",'25',);
+    // await manager.addProduct('6','Este es un producto prueba','200', 'Sin imagen', "abc6",'25',);
+    // await manager.addProduct('7','Este es un producto prueba','200', 'Sin imagen', "abc7",'25',);
+    // await manager.addProduct('8','Este es un producto prueba','200', 'Sin imagen', "abc8",'25',);
+    // await manager.addProduct('9','Este es un producto prueba','200', 'Sin imagen', "abc9",'25',);
+    // await manager.addProduct('10','Este es un producto prueba','200', 'Sin imagen', "abc10",'25',);node
+    // await manager.getProduct();
+    // await manager.getProductById(3);
+    // await manager.getProductById(1);
+    // await manager.updateProductById(1 , {
+    //         title: "2",
+    //     	description: 'este es el cambio de prueba 2',
+    //     	price: '330',
+    //     	code: 'abc387',
+    //     	stock: 44
+    // });
+    // await manager.getProductById(1);
     // await manager.deleteProduct(3);
     // await manager.deleteProduct(1);
     // await manager.getProduct(1);
