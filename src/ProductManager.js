@@ -8,7 +8,7 @@ class ProductManager {
    
     constructor() {
         this.product = [];
-        this.productDir = "./files";
+        this.productDir = "files";
         this.path = this.productDir + "/Products.json"; 
       
                 
@@ -157,8 +157,8 @@ let manager = new ProductManager ();
 
 const EjecutApp = async () =>{
     await manager.getProduct();
-    // await manager.addProduct('1','Este es un producto prueba','200', 'Sin imagen', "abc1",'25',);
-    // await manager.addProduct('2','Este es un producto prueba','200', 'Sin imagen', "abc2",'25',);
+    await manager.addProduct('1','Este es un producto prueba','200', 'Sin imagen', "abc1",'25',);
+    await manager.addProduct('2','Este es un producto prueba','200', 'Sin imagen', "abc2",'25',);
     // await manager.addProduct('3','Este es un producto prueba','200', 'Sin imagen', "abc3",'25',);
     // await manager.addProduct('4','Este es un producto prueba','200', 'Sin imagen', "abc4",'25',);
     // await manager.addProduct('5','Este es un producto prueba','200', 'Sin imagen', "abc5",'25',);
