@@ -185,4 +185,5 @@ const EjecutApp = async () =>{
 }
 EjecutApp();
 
+module.exports = manager
     
