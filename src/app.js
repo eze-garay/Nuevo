@@ -18,7 +18,7 @@ app.get('/products', async (req,res)=> {
             return res.status(404).send({error: 'no funciona'})
             
         }  if (limit) {
-            const limitacion = prod.splice(0,5);
+            const limitacion = prod.splice(0,limit);
             return res.status(200).send(limitacion)
         } else {
           return res.status(200).send(prod)
@@ -33,11 +33,17 @@ app.get('/products', async (req,res)=> {
 
 
 app.get('/products/:pid', async (req,res)=>{
-    let {id} = req.params
+    let {id} = req.params.pid
+    
     try {
-        let product = await manager.getProductById(Number(id))
-        if (product) {
-            return res.status(200).send(product)
+        const products = await manager.getProductById(Number(id))
+        
+        if (products) {
+        
+            let filtered = manager.product.filter(e => e.id === id)
+
+            return res.status(200).send(filtered)
+
         } else {
             return res.status(404).send({error: 'Producto no econtrado'})
         }
