@@ -17,9 +17,13 @@ app.get('/products', async (req,res)=> {
         if (!prod) {
             return res.status(404).send({error: 'no funciona'})
             
+        }  if (limit) {
+            const limitacion = prod.splice(0,5);
+            return res.status(200).send(limitacion)
         } else {
-            return res.status(200).send(prod)
+          return res.status(200).send(prod)
         }
+
         
     } catch (error) {
         return res.status(500).send(error.message)
