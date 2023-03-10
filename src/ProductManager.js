@@ -8,7 +8,7 @@ class ProductManager {
    
     constructor() {
         this.product = [];
-        this.productDir = "file";
+        this.productDir = "./file";
         this.path = this.productDir + "/Products.json"; 
       
                 
@@ -79,7 +79,7 @@ class ProductManager {
       const productsParsed=JSON.parse(ProductFile);
       console.log("Productos encontrados: ");
       console.log(productsParsed);
-      return this.product;
+      return productsParsed;
       } catch (error) {
         console.error(`Error al consultar la lista de productos, verifique el archivo ${this.productDir}, detalle del error ${error}`);
         throw Error (`Error al consultar la lista de productos, verifique el archivo ${this.productDir}, detalle del error ${error}`);
@@ -156,18 +156,18 @@ let manager = new ProductManager ();
 //Segundo Test:
 
 const EjecutApp = async () =>{
-    await manager.getProduct();
-    await manager.addProduct('1','Este es un producto prueba','200', 'Sin imagen', "abc1",'25',);
-    await manager.addProduct('2','Este es un producto prueba','200', 'Sin imagen', "abc2",'25',);
-    // await manager.addProduct('3','Este es un producto prueba','200', 'Sin imagen', "abc3",'25',);
-    // await manager.addProduct('4','Este es un producto prueba','200', 'Sin imagen', "abc4",'25',);
-    // await manager.addProduct('5','Este es un producto prueba','200', 'Sin imagen', "abc5",'25',);
-    // await manager.addProduct('6','Este es un producto prueba','200', 'Sin imagen', "abc6",'25',);
-    // await manager.addProduct('7','Este es un producto prueba','200', 'Sin imagen', "abc7",'25',);
-    // await manager.addProduct('8','Este es un producto prueba','200', 'Sin imagen', "abc8",'25',);
-    // await manager.addProduct('9','Este es un producto prueba','200', 'Sin imagen', "abc9",'25',);
-    // await manager.addProduct('10','Este es un producto prueba','200', 'Sin imagen', "abc10",'25',);
-    // await manager.getProduct();
+    //await manager.getProduct();
+    //await manager.addProduct('1','Este es un producto prueba','200', 'Sin imagen', "abc1",'25',);
+    //await manager.addProduct('2','Este es un producto prueba','200', 'Sin imagen', "abc2",'25',);
+    //await manager.addProduct('3','Este es un producto prueba','200', 'Sin imagen', "abc3",'25',);
+    //await manager.addProduct('4','Este es un producto prueba','200', 'Sin imagen', "abc4",'25',);
+    //await manager.addProduct('5','Este es un producto prueba','200', 'Sin imagen', "abc5",'25',);
+    //await manager.addProduct('6','Este es un producto prueba','200', 'Sin imagen', "abc6",'25',);
+    //await manager.addProduct('7','Este es un producto prueba','200', 'Sin imagen', "abc7",'25',);
+    //await manager.addProduct('8','Este es un producto prueba','200', 'Sin imagen', "abc8",'25',);
+    //await manager.addProduct('9','Este es un producto prueba','200', 'Sin imagen', "abc9",'25',);
+    //await manager.addProduct('10','Este es un producto prueba','200', 'Sin imagen', "abc10",'25',);
+    //await manager.getProduct();
     // await manager.getProductById(3);
     // await manager.getProductById(1);
     // await manager.updateProductById(1 , {

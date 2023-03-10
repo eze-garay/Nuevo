@@ -6,7 +6,7 @@ app.use(express.urlencoded({extended:true}))
 app.set('port',8080)
 app.listen(
     app.get('port'),
-    ()=>(console.log('SERVER PORT:'+app.get('port')))
+    () => {console.log('SERVER PORT:'+app.get('port'))}
 )
 const manager = require('./ProductManager')
 
@@ -26,3 +26,19 @@ app.get('/products', async (req,res)=> {
     }
 
 })
+
+
+app.get('/products/:pid', async (req,res)=>{
+    let {id} = req.params
+    try {
+        let product = await manager.getProductById(Number(id))
+        if (product) {
+            return res.status(200).send(product)
+        } else {
+            return res.status(404).send({error: 'Producto no econtrado'})
+        }
+        
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+} )
