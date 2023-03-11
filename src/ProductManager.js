@@ -94,16 +94,14 @@ class ProductManager {
           await fs.promises.writeFile(this.path, "[]");
         }
       let ProductFile = await fs.promises.readFile(this.path, "utf-8");
-      console.info("Archivo JSON obtenido desde archivo: ")
-      console.log(ProductFile) 
       this.product = JSON.parse(ProductFile);
-      for(const element of this.product) {
-      if (element.id === id) {
-        return console.log(element.title);
+
+      let founded = this.product.find(prod => prod.id === id)
+      if (founded){
+        console.log(founded)
       } else {
         return console.log('El producto no esta en la lista');
-      }}
-  } catch (error) {
+      } } catch (error) {
     console.error(`No se puede encontrar el producto, verifique ${this.productDir}, detalle del error ${error}`);
     throw Error (`No se puede encontrar el producto, verifique  ${this.productDir}, detalle del error ${error}`);
     }
@@ -170,7 +168,7 @@ const EjecutApp = async () =>{
     //await manager.addProduct('10','Este es un producto prueba','200', 'Sin imagen', "abc10",'25',);
     //await manager.getProduct();
     //await manager.getProductById(3);
-    // await manager.getProductById(2);
+     //await manager.getProductById(2);
     // await manager.updateProductById(1 , {
     //         title: "2",
     //     	description: 'este es el cambio de prueba 2',
