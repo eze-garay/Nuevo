@@ -99,6 +99,7 @@ class ProductManager {
       let founded = this.product.find(prod => prod.id === id)
       if (founded){
         console.log(founded)
+        return founded
       } else {
         return console.log('El producto no esta en la lista');
       } } catch (error) {
