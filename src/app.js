@@ -32,15 +32,15 @@ app.get('/products', async (req,res)=> {
 })
 
 
-app.get('/products/:pid', async (req,res)=>{
-    let {idproduc} = req.params.pid
+app.get('/product/:pid', async (req,res)=>{
+    let idproduc = req.params.pid
     
     try {
-        const products = await manager.getProductById(Number(idproduc))
+        const product = await manager.getProductById(parseInt(idproduc))
         
-        if (products) {
+        if (product) {
 
-            return res.status(200).send(products)
+            return res.status(200).send(product)
 
         } else {
             return res.status(404).send({error: 'Producto no econtrado'})

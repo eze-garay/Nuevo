@@ -86,6 +86,7 @@ class ProductManager {
       }
     }
 
+
     getProductById = async (id) =>{
       try {
         await fs.promises.mkdir(this.productDir,{recursive: true})
@@ -169,7 +170,7 @@ const EjecutApp = async () =>{
     //await manager.addProduct('10','Este es un producto prueba','200', 'Sin imagen', "abc10",'25',);
     //await manager.getProduct();
     // await manager.getProductById(3);
-    // await manager.getProductById(1);
+    // await manager.getProductById(2);
     // await manager.updateProductById(1 , {
     //         title: "2",
     //     	description: 'este es el cambio de prueba 2',
