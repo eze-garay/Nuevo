@@ -8,7 +8,7 @@ class ProductManager {
    
     constructor() {
         this.product = [];
-        this.productDir = "./file";
+        this.productDir = "src/file";
         this.path = this.productDir + "/Products.json"; 
       
                 
