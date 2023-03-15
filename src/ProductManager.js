@@ -138,12 +138,10 @@ class ProductManager {
         productsParsed.splice(productsParsed.indexOf(productFounded), 1)
         await fs.promises.unlink(this.path)
         await fs.promises.writeFile(this.path, JSON.stringify(productsParsed))
-        
+        console.log(`El producto con el id: ${id},se ha eliminado de la lista de productos`)
       } else {
         console.log(`El producto con el id: ${id}, no esta en la lista de productos`)
       }
-    
-      console.log(`El producto con el id: ${id},se ha eliminado de la lista de productos`)
       }
     
     

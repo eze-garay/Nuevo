@@ -54,27 +54,43 @@ app.get('/product/:pid', async (req,res)=>{
 } )
 
 app.post('/products', async (req,res)=> {
-    let {title, description, price, thumbnail, code, stock}= req.body
+    let product= req.body
     try {
-        let prod = await manager.addProduct({title, description, price, thumbnail, code, stock})
+        let prod = await manager.addProduct((product))
         if (prod) {
             return res.status(200).send(prod)
         }
+
     } catch (error) {
         return res.status(500).send(error.message)
     }
 })
 
 app.delete('/product/:id', async (req,res)=>{
-    let pid = req.params.pid
+    let id = req.params.id
     try {
-        let one = await manager.deleteProduct(Number(pid))
+        let one = await manager.deleteProduct(Number(id))
         if (one) {
             return res.status(200).send(one)
         } else {
-            return res.status(500).send({error: 'Producto no encontrado'})
+            return res.status(500).send({ status: "error", error: "El producto no se pudo borrar." })
         }
     } catch (error) {
         return res.status(500).send(error.message)
     }
+})
+app.put('/product/:pid', async (req,res)=> {
+    let pid = req.params.pid
+    
+    try {
+        let productUpdated =  await manager.updateProductById(Number(pid),req.body)
+        if (productUpdated) {
+            return res.status(200).send({message: "Producto Modificado"})
+        } else {
+            return res.status(500).send({error: "El producto no se pudo modificar"})
+        }    
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+
 })
