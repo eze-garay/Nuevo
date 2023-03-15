@@ -52,3 +52,29 @@ app.get('/product/:pid', async (req,res)=>{
         return res.status(500).send(error.message)
     }
 } )
+
+app.post('/products', async (req,res)=> {
+    let {title, description, price, thumbnail, code, stock}= req.body
+    try {
+        let prod = await manager.addProduct({title, description, price, thumbnail, code, stock})
+        if (prod) {
+            return res.status(200).send(prod)
+        }
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+})
+
+app.delete('/product/:id', async (req,res)=>{
+    let pid = req.params.pid
+    try {
+        let one = await manager.deleteProduct(Number(pid))
+        if (one) {
+            return res.status(200).send(one)
+        } else {
+            return res.status(500).send({error: 'Producto no encontrado'})
+        }
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+})
