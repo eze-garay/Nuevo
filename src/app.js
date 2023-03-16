@@ -54,7 +54,7 @@ app.get('/product/:pid', async (req,res)=>{
 } )
 
 app.post('/products', async (req,res)=> {
-    let product= req.body
+    let product = req.body
     try {
         let prod = await manager.addProduct((product))
         if (prod) {
@@ -62,6 +62,7 @@ app.post('/products', async (req,res)=> {
         }
 
     } catch (error) {
+        console.log(error)
         return res.status(500).send(error.message)
     }
 })
@@ -70,11 +71,7 @@ app.delete('/product/:id', async (req,res)=>{
     let id = req.params.id
     try {
         let one = await manager.deleteProduct(Number(id))
-        if (one) {
-            return res.status(200).send(one)
-        } else {
-            return res.status(500).send({ status: "error", error: "El producto no se pudo borrar." })
-        }
+        return res.status(one.status).send(one.response)
     } catch (error) {
         return res.status(500).send(error.message)
     }

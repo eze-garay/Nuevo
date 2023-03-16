@@ -15,56 +15,46 @@ class ProductManager {
     
     }
     
-    addProduct = async (title, description, price, thumbnail, code, stock, id) => {
-        
+    addProduct = async (title, description, price, thumbnail, code, stock) => {        
 
-        let Product = {
-
-            title,
-        
-            description,
-        
-            price,
-        
-            thumbnail,
-        
-            code,
-        
-            id,
-        
-            stock,
-        }
-        
-      try {
-        await fs.promises.mkdir(this.productDir,{recursive: true})
-        
-        if (!fs.existsSync(this.path)) {
-            await fs.promises.writeFile(this.path, "[]");
-        }
-        let ProductFile = await fs.promises.readFile(this.path, "utf-8");
-        console.info("Archivo JSON obtenido");
-        console.log(ProductFile);
-        const productsParsed=JSON.parse(ProductFile);
-        Product.id = this.product.length + 1
-
-        if (this.product.find((prod) => prod.code == code)) {
-              console.log('El elemento ya esta cargado')
-        } else if (Product.title === '' || Product.description === '' || Product.price === '' || Product.thumbnail === ''|| Product.id === 0 || Product.stock < 0) {
-              console.log('Todos los campos son necesarios')
-        }
-      
-        console.log("Porductos cargados");
-        console.log(productsParsed);
-        this.product.push(Product);
-        console.log("Nueva lista de productos cargados");
-        console.log(productsParsed);
-        await fs.promises.writeFile(this.path, JSON.stringify(this.product));
-      } catch (error) {
-        console.error(`Error cargando producto nuevo: ${JSON.stringify(Product)}, detalle del error :${error}`);
-        throw Error (`Error cargando producto nuevo: ${JSON.stringify(Product)}, detalle del error :${error}`);
-        
+      let product = {
+          title,
+          description,
+          price,
+          thumbnail,
+          code,
+          stock,
       }
+      
+  try {
+    await fs.promises.mkdir(this.productDir,{recursive: true})        
+    if (!fs.existsSync(this.path)) {
+      await fs.promises.writeFile(this.path, "[]");
     }
+    let productsFile = await fs.promises.readFile(this.path, "utf-8");
+    //console.info("Archivo JSON obtenido");
+    //console.log(productsFile)
+    this.product = JSON.parse(productsFile)
+    if (this.product.length>0) {
+      product.id = this.product[this.product.length-1].id+1
+    } else {
+      product.id = 1
+    }
+    if (this.product.find((prod) => prod.id == id)) {
+      return 'El elemento ya esta cargado'
+    } else if (product.title === '' || product.description === '' || product.price <0 || product.thumbnail === ''|| product.stock < 0) {
+      return 'Todos los campos son necesarios'
+    }
+    this.product.push(product);
+    //console.log(productsParsed)
+    await fs.promises.writeFile(this.path, JSON.stringify(this.product,null,2));
+    return 'Producto cargado'
+  } catch (error) {
+    //console.error(`Error cargando producto nuevo: ${JSON.stringify(product)}, detalle del error :${error}`)
+    throw Error (`Error cargando producto nuevo: ${JSON.stringify(this.product,null,2)}, detalle del error :${error}`)
+  }
+
+  }
 
     getProduct = async () =>{
       try {
@@ -73,15 +63,14 @@ class ProductManager {
           await fs.promises.writeFile(this.path, "[]");
       }
 
-      let ProductFile = await fs.promises.readFile(this.path, "utf-8");
+      let productFile = await fs.promises.readFile(this.path, "utf-8");
       console.info("Archivo JSON obtenido desde archivo: ");
-      console.log(ProductFile);
-      const productsParsed=JSON.parse(ProductFile);
+      console.log(productFile);
+      const productsParsed=JSON.parse(productFile);
       console.log("Productos encontrados: ");
       console.log(productsParsed);
       return productsParsed;
       } catch (error) {
-        console.error(`Error al consultar la lista de productos, verifique el archivo ${this.productDir}, detalle del error ${error}`);
         throw Error (`Error al consultar la lista de productos, verifique el archivo ${this.productDir}, detalle del error ${error}`);
       }
     }
@@ -93,95 +82,72 @@ class ProductManager {
         if (!fs.existsSync(this.path)) {
           await fs.promises.writeFile(this.path, "[]");
         }
-      let ProductFile = await fs.promises.readFile(this.path, "utf-8");
-      this.product = JSON.parse(ProductFile);
+      let productFile = await fs.promises.readFile(this.path, "utf-8");
+      this.product = JSON.parse(productFile);
 
       let founded = this.product.find(prod => prod.id === id)
       if (founded){
         console.log(founded)
         return founded
       } else {
-        return console.log('El producto no esta en la lista');
+        return 'El producto no esta en la lista'
       } } catch (error) {
-    console.error(`No se puede encontrar el producto, verifique ${this.productDir}, detalle del error ${error}`);
     throw Error (`No se puede encontrar el producto, verifique  ${this.productDir}, detalle del error ${error}`);
     }
     }
 
 
     updateProductById = async (id, updatedData) => {
-      let result = await fs.promises.readFile(this.path)
-      let parsedRes = await JSON.parse(result)
-      
-      let productToUpdate = parsedRes.find(product => product.id == id)
-      
-      if (productToUpdate) {
-      // actualizar el objeto
-      Object.assign(productToUpdate, updatedData)
-      
-      await fs.promises.writeFile(this.path, JSON.stringify(parsedRes))
-      
-      console.log('producto correctamente modificado')
-      } else {
-      console.log(`El producto de ID ${id} no existe`)
+		
+      try {
+        let result = await fs.promises.readFile(this.path)
+        let parsedRes = await JSON.parse(result)
+        let indexes = parsedRes.map(each=> each.id)
+        if (indexes.includes(id)) {
+          let productToUpdate = parsedRes.map(product => {
+            if (product.id == id) {
+              Object.assign(product, updatedData)
+            }
+          })
+          await fs.promises.writeFile(this.path, JSON.stringify(productToUpdate,null,2))
+          return { status: 200, response: 'actualizado' }
+        } else {
+          return { status: 404, response: 'no encontrado' }
+        }	
+      } catch (error) {
+        console.log(error)
+        return { status: 400, response: 'error' }
       }
+  
       }
  
     deleteProduct = async (id) => {
+      try {
+        const productFile = await fs.promises.readFile(this.path, "utf-8")
+        const productsParsed = JSON.parse(productFile);
+        const productFounded = await productsParsed.find(product => product.id === id )
   
-      const ProductFile = await fs.promises.readFile(this.path, "utf-8")
-      const productsParsed = JSON.parse(ProductFile);
-      const productFounded = await productsParsed.find(product => product.id === id )
-
-      if (productFounded) {
-        console.log(productsParsed.indexOf(productFounded))
-        productsParsed.splice(productsParsed.indexOf(productFounded), 1)
-        await fs.promises.unlink(this.path)
-        await fs.promises.writeFile(this.path, JSON.stringify(productsParsed))
-        console.log(`El producto con el id: ${id},se ha eliminado de la lista de productos`)
-      } else {
-        console.log(`El producto con el id: ${id}, no esta en la lista de productos`)
+        if (productFounded) {
+          console.log(productsParsed.indexOf(productFounded))
+          productsParsed.splice(productsParsed.indexOf(productFounded), 1)
+          await fs.promises.unlink(this.path)
+          await fs.promises.writeFile(this.path, JSON.stringify(productsParsed))
+        }
+        return { status: 200, response: 'eliminado' }
+        
+      } catch (error) {
+        console.log(error)
+        return { status: 400, response: 'error' }
       }
-      }
+  
     
     
+    }
 };
 
 
 
 let manager = new ProductManager ();
-
-//Segundo Test:
-
-const EjecutApp = async () =>{
-    //await manager.getProduct();
-    //await manager.addProduct('1','Este es un producto prueba','200', 'Sin imagen', "abc1",'25',);
-    //await manager.addProduct('2','Este es un producto prueba','200', 'Sin imagen', "abc2",'25',);
-    //await manager.addProduct('3','Este es un producto prueba','200', 'Sin imagen', "abc3",'25',);
-    //await manager.addProduct('4','Este es un producto prueba','200', 'Sin imagen', "abc4",'25',);
-    //await manager.addProduct('5','Este es un producto prueba','200', 'Sin imagen', "abc5",'25',);
-    //await manager.addProduct('6','Este es un producto prueba','200', 'Sin imagen', "abc6",'25',);
-    //await manager.addProduct('7','Este es un producto prueba','200', 'Sin imagen', "abc7",'25',);
-    //await manager.addProduct('8','Este es un producto prueba','200', 'Sin imagen', "abc8",'25',);
-    //await manager.addProduct('9','Este es un producto prueba','200', 'Sin imagen', "abc9",'25',);
-    //await manager.addProduct('10','Este es un producto prueba','200', 'Sin imagen', "abc10",'25',);
-    //await manager.getProduct();
-    //await manager.getProductById(3);
-     //await manager.getProductById(2);
-    // await manager.updateProductById(1 , {
-    //         title: "2",
-    //     	description: 'este es el cambio de prueba 2',
-    //     	price: '330',
-    //     	code: 'abc387',
-    //     	stock: 44
-    // });
-    // await manager.getProductById(1);
-    // await manager.deleteProduct(3);
-    // await manager.deleteProduct(1);
-    // await manager.getProduct(1);
-   
-}
-EjecutApp();
 
 module.exports = manager
     

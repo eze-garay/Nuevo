@@ -1,1 +1,13 @@
-[{"title":"1","description":"Este es un producto prueba","price":"200","thumbnail":"Sin imagen","code":"abc1","id":1,"stock":"25"},{"title":"modificado","description":"Este es un producto prueba","price":"200","thumbnail":"Sin imagen","code":"abc2","id":2,"stock":"25"},{"title":"3","description":"Este es un producto prueba","price":"200","thumbnail":"Sin imagen","code":"abc3","id":3,"stock":"25"}]
+[
+  {
+    "title": {
+      "title": "1",
+      "description": "prueba",
+      "price": "200",
+      "thumbnail": "sin",
+      "code": "asadas",
+      "stock": "20"
+    },
+    "id": 1
+  }
+]
