@@ -1,13 +1,20 @@
 [
   {
-    "title": {
-      "title": "1",
-      "description": "prueba",
-      "price": "200",
-      "thumbnail": "sin",
-      "code": "asadas",
-      "stock": "20"
-    },
+    "title": "3",
+    "description": "prueba",
+    "price": "200",
+    "code": "as",
+    "stock": "20",
+    "thumbnail": "sin",
     "id": 1
+  },
+  {
+    "title": "2",
+    "description": "prueba",
+    "price": "200",
+    "code": "asf",
+    "stock": "20",
+    "thumbnail": "sin",
+    "id": 2
   }
 ]

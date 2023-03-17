@@ -8,7 +8,7 @@ app.listen(
     app.get('port'),
     () => {console.log('SERVER PORT:'+app.get('port'))}
 )
-const manager = require('./ProductManager')
+const manager = require('./src/ProductManager.js')
 
 app.get('/products', async (req,res)=> {
     let limit = req.query?.limit

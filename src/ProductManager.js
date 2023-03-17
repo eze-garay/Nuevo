@@ -8,53 +8,46 @@ class ProductManager {
    
     constructor() {
         this.product = [];
-        this.productDir = "./file";
+        this.productDir = "./src/file";
         this.path = this.productDir + "/Products.json"; 
       
                 
     
     }
     
-    addProduct = async (title, description, price, thumbnail, code, stock) => {        
-
-      let product = {
-          title,
-          description,
-          price,
-          thumbnail,
-          code,
-          stock,
-      }
+    addProduct = async ({title,description,price,code,stock,thumbnail}) => {   
+      let product = {title,description,price,code,stock,thumbnail}     
       
-  try {
     await fs.promises.mkdir(this.productDir,{recursive: true})        
     if (!fs.existsSync(this.path)) {
       await fs.promises.writeFile(this.path, "[]");
     }
     let productsFile = await fs.promises.readFile(this.path, "utf-8");
-    //console.info("Archivo JSON obtenido");
-    //console.log(productsFile)
     this.product = JSON.parse(productsFile)
     if (this.product.length>0) {
       product.id = this.product[this.product.length-1].id+1
     } else {
       product.id = 1
     }
-    if (this.product.find((prod) => prod.id == id)) {
-      return 'El elemento ya esta cargado'
-    } else if (product.title === '' || product.description === '' || product.price <0 || product.thumbnail === ''|| product.stock < 0) {
-      return 'Todos los campos son necesarios'
+    if (product.title === '' || product.description === '' || product.price <0 || product.thumbnail === ''|| product.stock < 0) {
+    return 'Todos los campos son necesarios'
     }
-    this.product.push(product);
-    //console.log(productsParsed)
-    await fs.promises.writeFile(this.path, JSON.stringify(this.product,null,2));
-    return 'Producto cargado'
-  } catch (error) {
-    //console.error(`Error cargando producto nuevo: ${JSON.stringify(product)}, detalle del error :${error}`)
-    throw Error (`Error cargando producto nuevo: ${JSON.stringify(this.product,null,2)}, detalle del error :${error}`)
-  }
+      try {
+        if (! this.product.find((prod) => prod.code == code)) {
+        this.product.push(product)
+        await fs.promises.writeFile(this.path, JSON.stringify(this.product, null, 2)) 
+        let message = 'producto  creado'
+        return { message }
+        }
+          let message = 'El elemento ya esta cargado'
+          return { message }
+        } catch (error) {
+          console.log(error.message)
+          return { error: error.message }
+      }
+    }
 
-  }
+
 
     getProduct = async () =>{
       try {
