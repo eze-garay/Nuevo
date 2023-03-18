@@ -1,22 +1,22 @@
 
-const fs = require ("fs");
+import fs from 'node:fs'
 
 
-class ProductManager {
+class productManager {
     
   
    
     constructor() {
         this.product = [];
         this.productDir = "./src/file";
-        this.path = this.productDir + "/Products.json"; 
+        this.path = this.productDir + "/products.json"; 
       
                 
     
     }
     
-    addProduct = async ({title,description,price,code,stock,thumbnail}) => {   
-      let product = {title,description,price,code,stock,thumbnail}     
+    addProduct = async ({title,description,price,code,stock,status,thumbnail}) => {   
+      let product = {title,description,price,code,stock,status,thumbnail}     
       
     await fs.promises.mkdir(this.productDir,{recursive: true})        
     if (!fs.existsSync(this.path)) {
@@ -91,28 +91,26 @@ class ProductManager {
 
 
     updateProductById = async (id, updatedData) => {
-		
       try {
         let result = await fs.promises.readFile(this.path)
         let parsedRes = await JSON.parse(result)
-        let indexes = parsedRes.map(each=> each.id)
-        if (indexes.includes(id)) {
-          let productToUpdate = parsedRes.map(product => {
-            if (product.id == id) {
-              Object.assign(product, updatedData)
-            }
-          })
-          await fs.promises.writeFile(this.path, JSON.stringify(productToUpdate,null,2))
-          return { status: 200, response: 'actualizado' }
-        } else {
-          return { status: 404, response: 'no encontrado' }
-        }	
+        
+        let productToUpdate = parsedRes.find(product => product.id == id)
+        
+        if (productToUpdate) {
+        // actualizar el objeto
+        Object.assign(productToUpdate, updatedData)
+        
+        await fs.promises.writeFile(this.path, JSON.stringify(parsedRes))
+        return { status: 200, response: 'modificado' }
+      } 
       } catch (error) {
         console.log(error)
         return { status: 400, response: 'error' }
       }
-  
       }
+     
+  
  
     deleteProduct = async (id) => {
       try {
@@ -140,7 +138,6 @@ class ProductManager {
 
 
 
-let manager = new ProductManager ();
+let manager = new productManager ();
 
-module.exports = manager
-    
+export default manager
