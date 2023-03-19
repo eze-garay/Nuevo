@@ -6,7 +6,7 @@ class cartManager {
   
    
   constructor() {
-        this.carts = [];
+        this.carts = []
         this.productDir = "./src/file";
         this.path = this.productDir + "/carrito.json";     
     
@@ -17,22 +17,22 @@ class cartManager {
       if (!fs.existsSync(this.path)) {
         await fs.promises.writeFile(this.path, "[]");
       }
-      let newCart = {
+      let Cart = {
         id,
-        product: []
+        products: []
       }
       try {
         let cartsFile = await fs.promises.readFile(this.path, "utf-8");
         this.carts = JSON.parse(cartsFile)
         if (this.carts.length>0) {
-          newCart.id = this.carts[this.carts.length-1].id+1
+          Cart.id = this.carts[this.carts.length-1].id+1
         } else {
-          newCart.id = 1
+          Cart.id = 1
         }
         
-        this.carts.push(newCart)
+        this.carts.push(Cart)
         await fs.promises.writeFile(this.path, JSON.stringify(this.carts, null, 2)) 
-        console.log(newCart)
+        console.log(Cart)
         return 'carrito cargado'
         
       } catch (error) {
@@ -58,48 +58,42 @@ class cartManager {
   throw Error (`No se puede encontrar el carrito, verifique  ${this.productDir}, detalle del error ${error}`);
   }
   }
-  addProductToCart = async (id,productId) => {
-    try {
-     
-      let cartsFile = await fs.promises.readFile(this.path, "utf-8");
-      this.carts = JSON.parse(cartsFile)
-      const cart = this.carts.filter(c => c.id === id)
 
-      if (cart) {
-        let productExist = cart.find(p => p.product === productId)
-        if (!productExist) {
-          cart.push(
-            productExist = {
-              product : productId,
-              quantity : 1
-            }
-          )
-        } else {
-          productExist.quantity++;
-        }
-          
-          
-        
+
+  addProductToCart = async (cId,pId) => {
+    try {
+      let cart = await this.getCartById(cId)
+      if (!cart) {
+          return 'carito no encontrado'
       }
-      return 'producto cargado'
-      
-      
-    } catch (error) {
-      throw Error (`No se puede agregar el producto, verifique  ${this.productDir}, detalle del error ${error}`);
-    }
+      let product = cart.products.map(prod=>prod.id).indexOf(pId)
+      if (product>=0) {
+          cart.products[product].quantity++
+      } else {
+          cart.products.push({
+              id: pId,
+              quantity: 1
+          })
+      }
+      this.carts.map(cart => cart.id===cId ? cart : cart )
+      await fs.promises.writeFile(this.path, JSON.stringify(this.carts, null, 2))
+      return 'producto añadido'
+  } catch(err) {
+      console.log(err.stack)
+      return { error: err.message }
+  }
+
 
   }
 
 
 
-
-
-
+    
 };
 
 
 
 
-let cart = new cartManager ();
+let carts = new cartManager ();
 
-export default cart
+export default carts

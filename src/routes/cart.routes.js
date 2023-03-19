@@ -1,13 +1,13 @@
 import { Router } from "express";
 const router = Router();
-import cart from '../service/carritoManager.js'
+import carts from '../service/carritoManager.js'
 
 
 
 router.post('/', async (req,res)=> {
     
     try {
-        let prod = await cart.addCart()
+        let prod = await carts.addCart()
         if (prod) {
             return res.json({
                 message: 'Carrito creado con éxito',
@@ -24,7 +24,7 @@ router.get('/:cid', async (req,res)=>{
     let pid = req.params.cid
     
     try {
-        let one = await cart.getCartById(Number(pid))
+        let one = await carts.getCartById(Number(pid))
         //const found = await manager.product.filter(e => e.id === pid)
         
         if (one) {
@@ -41,18 +41,17 @@ router.get('/:cid', async (req,res)=>{
     }
 } )
 
-router.post('/:cid/product/:pid', async (req,res)=>{
-    const id = parseInt(req.params.cid);
-    const productId = parseInt(req.params.pid);
+router.post('/:cid/add/:pid', async(req,res,) => {
+    let cid = parseInt(req.params.cid)
+    let pid = parseInt(req.params.pid)
+
     try {
-        let prod = await cart.addProductToCart((id,productId))
-        if (prod) {
-            return res.json({
-                message: 'Carrito creado con éxito',
-              });
-        } 
-    } catch (error) {
-        console.log(error)
+        let cart = await carts.addProductToCart(Number(cid),Number(pid))
+        if (!cart) {
+            return res.status(404).send('no se puede encontrar el carrito')
+        }
+        return res.status(200).send(cart)
+    } catch(error) {
         return res.status(500).send(error.message)
     }
 })
