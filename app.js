@@ -5,7 +5,7 @@ import handlebars from 'express-handlebars';
 import viewsRouters from './src/routes/views.routes.js'
 import cartsRouters from './src/routes/cart.routes.js'
 import productsRoutes from './src/routes/products.routes.js'
-import __dirname from './utils.js';
+import __dirname from './src/utils.js';
 
 
 
@@ -16,13 +16,14 @@ const PORT = 8080
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(express.static(__dirname + '/public'));
+
 
 app.engine('handlebars',handlebars.engine());
-app.set('views', __dirname + "src/views");
+app.set('views', __dirname + "/views");
 app.set('view engine','handlebars');
 
 
-app.use(express.static(__dirname + 'src/public'));
 
 
 app.use('/api/products', productsRoutes)
