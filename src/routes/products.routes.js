@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { uploader } from "../../utils.js";
+// import { uploader } from "../utils.js";
 import manager from '../service/productManager.js'
 
 router.get('/', async (req,res)=> {
@@ -46,7 +46,9 @@ router.get('/:pid', async (req,res)=>{
     }
 } )
 
-router.post('/product',uploader.single('file'), async (req,res)=> {
+//,uploader.single('file')
+
+router.post('/product', async (req,res)=> {
     let product = req.body
     try {
         let prod = await manager.addProduct((product))
