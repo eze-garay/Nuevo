@@ -7,7 +7,7 @@ class productManager {
   
    
     constructor() {
-        this.product = [];
+        this.products = [];
         this.productDir = "./src/file";
         this.path = this.productDir + "/products.json"; 
       
@@ -23,9 +23,9 @@ class productManager {
       await fs.promises.writeFile(this.path, "[]");
     }
     let productsFile = await fs.promises.readFile(this.path, "utf-8");
-    this.product = JSON.parse(productsFile)
-    if (this.product.length>0) {
-      product.id = this.product[this.product.length-1].id+1
+    this.products = JSON.parse(productsFile)
+    if (this.products.length>0) {
+      product.id = this.products[this.products.length-1].id+1
     } else {
       product.id = 1
     }
@@ -33,9 +33,9 @@ class productManager {
     return 'Todos los campos son necesarios'
     }
       try {
-        if (! this.product.find((prod) => prod.code == code)) {
-        this.product.push(product)
-        await fs.promises.writeFile(this.path, JSON.stringify(this.product, null, 2)) 
+        if (! this.products.find((prod) => prod.code == code)) {
+        this.products.push(product)
+        await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2)) 
         let message = 'producto  creado'
         return { message }
         }
@@ -51,11 +51,6 @@ class productManager {
 
     getProduct = async () =>{
       try {
-        await fs.promises.mkdir(this.productDir,{recursive: true})
-        if (!fs.existsSync(this.path)) {
-          await fs.promises.writeFile(this.path, "[]");
-      }
-
       let productFile = await fs.promises.readFile(this.path, "utf-8");
       console.info("Archivo JSON obtenido desde archivo: ");
       console.log(productFile);
@@ -78,7 +73,7 @@ class productManager {
       let productFile = await fs.promises.readFile(this.path, "utf-8");
       this.product = JSON.parse(productFile);
 
-      let founded = this.product.find(prod => prod.id === id)
+      let founded = this.products.find(prod => prod.id === id)
       if (founded){
         console.log(founded)
         return founded
