@@ -1,0 +1,12 @@
+[
+  {
+    "title": "2",
+    "description": "prueba",
+    "price": "200",
+    "code": "222",
+    "stock": "20",
+    "status": true,
+    "thumbnail": "/Users/ezequielgaray/Desktop/Entrega/Nuevo/src/public/img/box.png",
+    "id": 1
+  }
+]
