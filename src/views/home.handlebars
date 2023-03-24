@@ -1,12 +1,9 @@
 
 			<div>
                <hi>Todo los productos</hi>
-                <ul{{#each this.products}}>
+                <ul{{#each product}}>
                     <li>
                         {{product.title}}
                     </li>
                 </ul {{/each}}>
             </div>
-    
-<script src="/socket.io/socket.io.js" ></script>
-<script src="/js/home.js" ></script>

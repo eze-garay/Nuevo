@@ -6,17 +6,27 @@ const router = express.Router()
 
 
 
-router.get('/', (req, res)=>{
+router.get('/', async(req, res, next) => {
+    let limit = req.query?.limit
     try {
-        let response =  manager.products.map(products=> products.title)
+        let response = await manager.getProduct(limit)
         if (!response) {
-            return res.status(404).send('error')
+            return res.status(404).render('error',{
+                message: 'no products yet'
+            })
         }
         return res.status(200).render('home', {
+            title: "list of products",
+            nav: [
+                { url: "/form", title: "form" },
+                { url: "/chat", title: "chat" }
+            ],
             manager: response
         })
     } catch(error) {
-        return res.status(500).send(error)
+        return res.status(500).render('error',{
+            message: error.message
+        })
     }
 })
 
