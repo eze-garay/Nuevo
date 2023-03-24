@@ -39,7 +39,9 @@ const socketServer = new Server(httpServer);
 
 socketServer.on('connection', socket => {
     console.log('cliente conectado')
-
+    socket.on('mensaje', data =>{
+        console.log(data)
+    })
 })
 
 

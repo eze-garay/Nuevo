@@ -1,9 +1,14 @@
 
-			<div>
-               <hi>Todo los productos</hi>
-                <ul{{#each product}}>
-                    <li>
-                        {{product.title}}
-                    </li>
-                </ul {{/each}}>
-            </div>
+	
+    <div class="container">
+    <div class="d-raw text-center">
+        <hi class="h3">{{title}} </hi>
+    </div>
+    <divclass="row">
+        {{#each manager}}
+    <ul class="list-group">
+        <li class="list-group-item">{{this.title}}</li>
+    </ul>
+        {{/each}}  
+    </div>
+    </div>
