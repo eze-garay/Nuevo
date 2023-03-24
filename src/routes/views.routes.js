@@ -50,23 +50,36 @@ router.post('/new-product', async (req,res)=> {
     let product = req.body
     try {
         let prod = await manager.addProduct((product))
+        let response = await manager.getProduct()
         if (prod) {
-            return res.status(200).send(prod)
+            return res.status(200).render('realTimeProducts', {
+                title: "Productos en tiempo real",
+                manager: response
+            })
         }
 
     } catch (error) {
-        console.log(error)
-        return res.status(500).send(error.message)
+        return res.status(500).render('error',{
+            message: error.message
+        })
     }
 })
 
-router.delete('/:id', async (req,res)=>{
-    let id = req.params.id
+router.delete('/delete-product', async (req,res)=>{
+    let id= req.params.id
     try {
         let one = await manager.deleteProduct(Number(id))
-        return res.status(one.status).send(one.response)
+        let response = await manager.getProduct()
+        if (one) {
+            return res.status(200).render('realTimeProducts', {
+                title: "Productos en tiempo real",
+                manager: response
+            })
+        }
     } catch (error) {
-        return res.status(500).send(error.message)
+        return res.status(500).render('error',{
+            message: error.message
+        })
     }
 })
 

@@ -67,5 +67,41 @@
     "stock": "20",
     "thumbnail": "sin imagen",
     "id": 7
+  },
+  {
+    "title": "prueba9",
+    "description": "prueba",
+    "price": "200",
+    "code": "999",
+    "stock": "20",
+    "thumbnail": "sin imagen",
+    "id": 8
+  },
+  {
+    "title": "prueba10",
+    "description": "sasdasda",
+    "price": "12312",
+    "code": "123123",
+    "stock": "1232",
+    "thumbnail": "sin imagen",
+    "id": 9
+  },
+  {
+    "title": "prueba11",
+    "description": "1sdadsa",
+    "price": "12312",
+    "code": "12312",
+    "stock": "123123",
+    "thumbnail": "sin imagen",
+    "id": 10
+  },
+  {
+    "title": "1231",
+    "description": "12313",
+    "price": "123123",
+    "code": "12313",
+    "stock": "12312",
+    "thumbnail": "1231323",
+    "id": 11
   }
 ]
