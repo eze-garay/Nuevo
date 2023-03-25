@@ -9,8 +9,8 @@
             {{#each manager}}
         <ul class="list-group">
             <li class="list-group-item">{{this.title}}</li>
-                <form method="POST" action="/realtimeproducts/eliminar">
-                <input type="hidden" name="id" value={{this.id}}>
+                <form method="POST" action="/realtimeproducts/eliminar/{{this.id}}">
+                <input type="hidden" name="id" value={{this.id}} >
                 <button type="submit">Eliminar</button>
                 </form>
         </ul>

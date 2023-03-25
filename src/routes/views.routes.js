@@ -47,7 +47,7 @@ router.get('/', async(req, res,) => {
       });
 
 
-      router.post('/realtimeproducts/eliminar', async (req, res) => {
+      router.post('/realtimeproducts/eliminar/:id', async (req, res) => {
         let id = req.params.id
         try {
             let one = await manager.deleteProduct(Number(id))
