@@ -11,7 +11,7 @@
             <li class="list-group-item">{{this.title}}</li>
                 <form method="POST" action="/realtimeproducts/eliminar/{{this.id}}">
                 <input type="hidden" name="id" value={{this.id}} >
-                <button type="submit">Eliminar</button>
+                <button type="submit" class="btn btn-primary mt-2">Eliminar</button>
                 </form>
         </ul>
             {{/each}}  
@@ -52,3 +52,6 @@
         </div>
     </div>
 </div>
+
+<script src="/socket.io/socket.io.js" ></script>
+<script src="/js/index.js" ></script>
