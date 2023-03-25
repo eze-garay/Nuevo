@@ -46,7 +46,7 @@ router.get('/:pid', async (req,res)=>{
     }
 } )
 
-//,uploader.single('file')
+
 
 router.post('/product', async (req,res)=> {
     let product = req.body

@@ -1,12 +1,9 @@
-
-import express from 'express'
+import { Router } from "express";
+const router = Router();
 import manager from '../service/productManager.js'
 
-const router = express.Router()
 
-
-
-router.get('/', async(req, res, next) => {
+router.get('/', async(req, res,) => {
     let limit = req.query?.limit
     try {
         let response = await manager.getProduct(limit)
@@ -26,9 +23,8 @@ router.get('/', async(req, res, next) => {
     }
 })
 
-router.get('/realtimeproducts', async(req, res, next) => {
-    try {
-        let response = await manager.getProduct()
+    router.get('/realtimeproducts', async (req, res) => {
+        let response = await manager.getProduct() 
         if (!response) {
             return res.status(404).render('error',{
                 message: 'no products yet'
@@ -36,56 +32,41 @@ router.get('/realtimeproducts', async(req, res, next) => {
         }
         return res.status(200).render('realTimeProducts', {
             title: "Productos en tiempo real",
-            manager: response
-        })
+            manager: response})
+      });
+      
+      // Ruta para recibir el formulario de creación de productos
+      router.post('/realtimeproducts/crear', async (req, res) => {
+        let product = req.body
+      
+        // Agregar el nuevo producto a la lista
+        product = await manager.addProduct((product))
 
-    } catch(error) {
-        return res.status(500).render('error',{
-            message: error.message
-        })
-    }
-})
+        // Redirigir de vuelta a la vista de productos en tiempo real
+        res.redirect('/realtimeproducts');
+      });
 
-router.post('/new-product', async (req,res)=> {
-    let product = req.body
-    try {
-        let prod = await manager.addProduct((product))
-        let response = await manager.getProduct()
-        if (prod) {
-            return res.status(200).render('realTimeProducts', {
-                title: "Productos en tiempo real",
-                manager: response
+
+      router.post('/realtimeproducts/eliminar', async (req, res) => {
+        let id = req.params.id
+        try {
+            let one = await manager.deleteProduct(Number(id))
+            if (one) {
+                res.redirect('/realtimeproducts');   
+            }
+        } catch (error) {
+            return res.status(500).render('error',{
+                message: error.message
             })
-        }
+        }        
+      });
 
-    } catch (error) {
-        return res.status(500).render('error',{
-            message: error.message
-        })
-    }
-})
+      
 
-router.delete('/delete-product', async (req,res)=>{
-    let id= req.params.id
-    try {
-        let one = await manager.deleteProduct(Number(id))
-        let response = await manager.getProduct()
-        if (one) {
-            return res.status(200).render('realTimeProducts', {
-                title: "Productos en tiempo real",
-                manager: response
-            })
-        }
-    } catch (error) {
-        return res.status(500).render('error',{
-            message: error.message
-        })
-    }
-})
-
-// router.get("/message", (req, res)=>{
-//     res.render("messages");
-// });
+   
 
 
+// Ruta para la vista de productos en tiempo real
+
+  
 export default router;

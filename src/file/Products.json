@@ -1,25 +1,5 @@
 [
   {
-    "title": "2",
-    "description": "prueba",
-    "price": "200",
-    "code": "222",
-    "stock": "20",
-    "status": true,
-    "thumbnail": "/Users/ezequielgaray/Desktop/Entrega/Nuevo/src/public/img/box.png",
-    "id": 1
-  },
-  {
-    "title": "prueba3",
-    "description": "prueba",
-    "price": "200",
-    "code": "333",
-    "stock": "20",
-    "status": true,
-    "thumbnail": "/Users/ezequielgaray/Desktop/Entrega/Nuevo/src/public/img/box.png",
-    "id": 2
-  },
-  {
     "title": "prueba4",
     "description": "prueba",
     "price": "200",
@@ -103,5 +83,23 @@
     "stock": "12312",
     "thumbnail": "1231323",
     "id": 11
+  },
+  {
+    "title": "11",
+    "description": "qweqw",
+    "price": "11",
+    "code": "11",
+    "stock": "2",
+    "thumbnail": "sin imagen",
+    "id": 12
+  },
+  {
+    "title": "qq",
+    "description": "qqq",
+    "price": "qq",
+    "code": "qqq",
+    "stock": "qqq",
+    "thumbnail": "qqq",
+    "id": 13
   }
 ]

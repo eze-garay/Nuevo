@@ -9,8 +9,9 @@ import __dirname from './src/utils.js';
 
 
 
+
 const app = express ()
-const PORT = 8080
+const PORT = 9090
 
 
 
@@ -42,6 +43,8 @@ socketServer.on('connection', socket => {
     socket.on('mensaje', data =>{
         console.log(data)
     })
-})
+
+});
+
 
 
